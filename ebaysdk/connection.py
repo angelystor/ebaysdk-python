@@ -146,12 +146,13 @@ class BaseConnection(object):
         requestData = self.build_request_data(verb, data, verb_attrs)
         if files:
             del(headers['Content-Type'])
-            if isinstance(requestData, basestring):
+            if isinstance(requestData, str):
                 requestData = {'XMLPayload':requestData}
 
         request = Request(self.method,
             url,
-            data=smart_encode_request_data(requestData),
+            # was smart_encode_request_data but dict does not have encode mtd
+            data=smart_encode(requestData),
             headers=headers,
             files=files,
         )
